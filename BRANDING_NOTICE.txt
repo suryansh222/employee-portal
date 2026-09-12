@@ -1,0 +1,18 @@
+INDEPENDENT COLLEAGUE WORKSPACE
+
+The American Express logo at static/assets/amex-logo.svg was supplied by the
+user for this design. American Express and its logo belong to their respective
+rights holders. No ownership, endorsement, affiliation or permission for public
+redistribution is asserted by this software.
+
+This is not an official American Express website, identity provider, payroll
+service, employment document or statement of employer policy. Obtain the
+appropriate authorization before publishing branded assets or deploying the
+software for an organization. Do not present it as an official company service
+or request passwords used for a separate corporate single-sign-on system.
+
+Accounts in this version are created by its own administrator. No accounts,
+passwords or employee business records are preinstalled. Documents are uploaded
+by administrators; the software does not create, sign, authenticate or verify
+employment documents. Published screenshots may show test-only records used
+in quality assurance. Those records are not included in the runtime database.
