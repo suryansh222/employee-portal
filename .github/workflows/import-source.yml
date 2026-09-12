@@ -19,12 +19,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          { cat .upload3/chunk-000 .upload3/chunk-001; cat .upload4/chunk-*; } | base64 --decode > /tmp/source.zip
+          cat .upload5/chunk-* | base64 --decode > /tmp/source.zip
+          echo "45dba2f23c3f0a0a57822a57c540c29ced519970bd6e5cc46a8b75f304bfce63  /tmp/source.zip" | sha256sum -c -
           rm -rf /tmp/source
           mkdir -p /tmp/source
           unzip -q /tmp/source.zip -d /tmp/source
           cp -a /tmp/source/employee-portal/. .
-          rm -rf .upload2 .upload3 .upload4 .upload_parts .upload_remainder .upload_ready
+          rm -rf .upload2 .upload3 .upload4 .upload5 .upload_parts .upload_remainder .upload_ready
       - name: Commit imported source
         shell: bash
         run: |
