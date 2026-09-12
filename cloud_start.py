@@ -63,6 +63,7 @@ def bootstrap_admin(server) -> bool:
         password = os.environ.get('PORTAL_ADMIN_PASSWORD', '')
         if not email or not password:
             raise RuntimeError('First launch requires PORTAL_ADMIN_EMAIL and PORTAL_ADMIN_PASSWORD in Railway Variables. Do not put them in GitHub.')
+        # Use the same validation and password hashing as the local application.
         server.password_value({'password': password})
         user = server.provision(connection, {
             'employee_id': os.environ.get('PORTAL_ADMIN_ID', 'ADMIN'),
@@ -81,9 +82,12 @@ def create_app(settings: Settings):
     from fastapi.responses import JSONResponse
     from starlette.middleware.trustedhost import TrustedHostMiddleware
 
+    # init_db prints a local setup key. Never put that key into hosting logs.
     with contextlib.redirect_stdout(io.StringIO()):
         server.init_db()
     created = bootstrap_admin(server)
+    # Remove the bootstrap password from this process. Remove its stored Railway
+    # Variable yourself after first login; restarting does not reset the account.
     os.environ.pop('PORTAL_ADMIN_PASSWORD', None)
     if created:
         print('Initial administrator created. Remove the bootstrap password from Railway Variables after verifying login.', flush=True)
@@ -106,6 +110,7 @@ def create_app(settings: Settings):
         response.headers['Strict-Transport-Security'] = 'max-age=31536000'
         return response
 
+    # Add last so rejected Host headers never reach the application or health route.
     server.app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts, www_redirect=False)
     return server.app
 
@@ -116,6 +121,7 @@ def main() -> None:
         settings = read_settings()
         app = create_app(settings)
     except Exception as exc:
+        # Validation errors are safe messages; never print environment values.
         from fastapi import HTTPException
         if isinstance(exc, HTTPException):
             raise SystemExit(f'Cloud configuration error: {exc.detail}') from None
