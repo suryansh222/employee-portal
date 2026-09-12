@@ -19,7 +19,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat .upload5/chunk-* | base64 --decode > /tmp/source.zip
+          cat .upload5/chunk-000 .upload5/chunk-001 .upload5/chunk-002 .upload5/chunk-003 .upload5/chunk-004 .upload5/chunk-005 .upload5/chunk-006 .upload5/chunk-007 .upload5/chunk-008 .upload5/chunk-009 .upload5/chunk-010 .upload5/chunk-011 .upload5/chunk-0120 .upload5/chunk-0121 .upload5/chunk-0130 .upload5/chunk-0131 .upload5/chunk-014 | base64 --decode > /tmp/source.zip
           echo "2d7be679416eef5bda189db124ab968169ef1c6a025baf1378f5ae77e5ec4f60  /tmp/source.zip" | sha256sum -c -
           rm -rf /tmp/source
           mkdir -p /tmp/source
